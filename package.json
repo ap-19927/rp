@@ -2,7 +2,10 @@
   "name": "rp",
   "version": "1.0.0",
   "scripts": {
-    "start": "vite",
+    "start": "pm2 start vite",
+    "stop": "pm2 stop vite",
+    "logs": "pm2 logs",
+    "dev": "vite",
     "build": "vite build",
     "serve": "vite preview"
   },
@@ -11,6 +14,7 @@
   },
   "dependencies": {
     "kompas": "^0.0.1",
-    "ol": "latest"
+    "ol": "latest",
+    "pm2": "^5.2.0"
   }
 }
