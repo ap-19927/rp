@@ -52,8 +52,8 @@ const map = new Map({
     }),
   ],
   view: new View({
-    center: fromLonLat([-122, 37]),
-    zoom: 14,
+    center: fromLonLat([0, 0]),
+    zoom: 3,
   }),
 });
 map.addLayer(layer);
