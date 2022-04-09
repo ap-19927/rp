@@ -2,8 +2,8 @@
   "name": "rp",
   "version": "1.0.0",
   "scripts": {
-    "start": "pm2 start vite",
-    "stop": "pm2 stop vite",
+    "start": "pm2 start config/rp.js",
+    "stop": "pm2 stop config/rp.js",
     "logs": "pm2 logs",
     "dev": "vite",
     "build": "vite build",
@@ -13,6 +13,8 @@
     "vite": "^2.6.7"
   },
   "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
     "kompas": "^0.0.1",
     "ol": "latest",
     "pm2": "^5.2.0"

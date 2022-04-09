@@ -19,6 +19,7 @@ import {
   Style,
 } from 'ol/style';
 import Kompas from 'kompas';
+import locationHeading from './data/location-heading.svg'
 const container = document.getElementById('popup');//https://openlayers.org/en/latest/examples/popup.html
 const overlay = new Overlay({
   element: container,
@@ -33,7 +34,7 @@ const style = new Style({
     color: 'rgba(0, 0, 255, 0.2)',
   }),
   image: new Icon({
-    src: './data/location-heading.svg',
+    src: locationHeading,
     imgSize: [27, 55],
     rotateWithView: true,
   }),
@@ -60,8 +61,8 @@ map.addLayer(layer);
 
 const success = async (jd) => {
   $("#load").empty();
-  $('#stage').append('<p> From: ' +y1+','+x1+'</p>');
-  $('#stage').append('<p> To: ' +y2+','+x2+'</p>');
+  $('#stage').append(`<p>From:</p><code>${y1},${x1}</code>`);
+  $('#stage').append(`<p>To:</p><code>${y2},${x2}</code>`);
   $('#stage').append('<p> -----------</p>');
   let instr = await jd.paths[0].instructions
   for(let i =0;i<instr.length;i++) {
@@ -127,18 +128,18 @@ const click = function (evt) {
     x1=floor(coordinate[0]);
     y1=floor(coordinate[1]);
     if(map.getLayers().array_.length > 2) map.removeLayer(map.getLayers().array_[map.getLayers().array_.length-1])
-    from.innerHTML = '<p>Directions from:</p><code>' + y1+','+x1 + '</code>';
+    from.innerHTML = `<p>From:</p><code>${y1},${x1}</code>`;
   }
   if(m==2){
     x2=floor(coordinate[0]);
     y2=floor(coordinate[1]);
-    to.innerHTML = '<p>To:</p><code>' + y2+','+x2 + '</code>';
+    to.innerHTML = `<p>To:</p><code>${y2},${x2}</code>`;
     load.innerHTML = '<input type = "button" id = "driver" value = "Load Data" />';
-    url = 'https://graphhopper.com/api/1/route?point='+y1+','+x1+'&point='+y2+','+x2+'&profile=car&key='+key
+    url = `https://graphhopper.com/api/1/route?point=${y1},${x1}&point=${y2},${x2}&profile=car&key=${key}`
     $("#driver").click(function(event){
       if(!ajaxLoading) {
         ajaxLoading = true;
-        fetch(url).then(res => {return res.json()}).then(success)
+        fetch(url).then(res => {return res.json()}).then(success).catch(e => console.log(e))
       }
     });
   }

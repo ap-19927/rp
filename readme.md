@@ -15,3 +15,5 @@ When a user clicks on two points of the map and loads the data, the directions t
 4. https://electrictoolbox.com/jquery-prevent-ajax-request-firing-twice/
 
 5. https://openlayers.org/workshop/en/mobile/
+
+6. https://stackoverflow.com/questions/66863200/changing-the-input-and-output-directory-in-vite
