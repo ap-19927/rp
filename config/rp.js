@@ -11,12 +11,7 @@ const express = require('express'),
 
 
 //permission to serve static files
-//app.use(express.static('public'))
 app.use(express.static("dist", { root: '.' }));
-
-// View engine
-// app.set('views', path.join(__dirname, 'views'))
-// app.set('view engine', 'pug')
 
 // Routers
 app.use('/', require('./index'));
