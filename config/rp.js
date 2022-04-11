@@ -17,5 +17,7 @@ app.use(express.static("dist", { root: '.' }));
 app.use('/', require('./index'));
 
 
+
+
 // Run server
-app.listen(port);
+app.listen(port, console.log(port));

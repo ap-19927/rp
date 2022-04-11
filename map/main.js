@@ -53,27 +53,26 @@ const map = new Map({
     }),
   ],
   view: new View({
-    center: fromLonLat([0, 0]),
-    zoom: 3,
+    center: fromLonLat([-92, 32]),
+    zoom: 4,
   }),
 });
 map.addLayer(layer);
 
-const success = async (jd) => {
-  $("#load").empty();
+const success = (jd) => {
+  overlay.setPosition(undefined);
   $('#stage').append(`<p>From:</p><code>${y1},${x1}</code>`);
   $('#stage').append(`<p>To:</p><code>${y2},${x2}</code>`);
   $('#stage').append('<p> -----------</p>');
-  let instr = await jd.paths[0].instructions
+  let instr = jd.paths[0].instructions
   for(let i =0;i<instr.length;i++) {
    $('#stage').append('<p>' + instr[i].text+ '</p>');
    $('#stage').append('<p>In: ' + instr[i].distance+ 'm</p>');
   }
-  const polyline = await jd.paths[0].points; //https://stackoverflow.com/questions/68126956/use-openlayers-for-draw-route-from-graphhpper
+  const polyline = jd.paths[0].points; //https://stackoverflow.com/questions/68126956/use-openlayers-for-draw-route-from-graphhpper
   const route = new Polyline().readGeometry(polyline, {
       featureProjection: 'EPSG:3857',
     });
-
   const routeFeature = new Feature({
    type: 'route',
    geometry: route,
@@ -93,7 +92,6 @@ const success = async (jd) => {
    style: styles.route
   });
   map.addLayer(vectorLayer);
-  ajaxLoading = false;
 }
 
 let m=0;
@@ -102,7 +100,6 @@ let y1;
 let x2;
 let y2;
 let url;
-let ajaxLoading = false; //https://electrictoolbox.com/jquery-prevent-ajax-request-firing-twice/
 const floor = (x) => {
   const t = 100000000;
   return Math.floor(x*t)/t;
@@ -134,13 +131,15 @@ const click = function (evt) {
     x2=floor(coordinate[0]);
     y2=floor(coordinate[1]);
     to.innerHTML = `<p>To:</p><code>${y2},${x2}</code>`;
-    load.innerHTML = '<input type = "button" id = "driver" value = "Load Data" />';
-    url = `https://graphhopper.com/api/1/route?point=${y1},${x1}&point=${y2},${x2}&profile=car&key=${key}`
+    load.innerHTML = '<input type = "button" id = "driver" value = "get directions" />';
     $("#driver").click(function(event){
-      if(!ajaxLoading) {
-        ajaxLoading = true;
-        fetch(url).then(res => {return res.json()}).then(success).catch(e => console.log(e))
-      }
+      $.ajax({
+        url: 'http://localhost:3000/api',
+        data: JSON.stringify({x1:x1,y1:y1,x2:x2,y2:y2}),
+        type: 'POST',
+        success: success,
+        error: (e) => {console.log('Error: ' + e.message);},
+      });
     });
   }
   m%=2;
