@@ -102,7 +102,6 @@ let x2;
 let y2;
 let url;
 const profile = '<label for="mode">Choose a mode:</label> <select name="mode" id="mode"> <option value="car">car</option> <option value="bike">bike</option> <option value="foot">foot</option>'
-const modeSelect = $('#mode option:selected').val();
 const floor = (x) => {
   const t = 100000000;
   return Math.floor(x*t)/t;
@@ -140,9 +139,9 @@ const click = function (evt) {
     mode.innerHTML = profile;
     $("#driver").on('click touchstart',function(event){
       $.ajax({
-        url: 'http://roadpeoples.com/api',
-        //url: 'http://localhost:3000/api',
-        data: JSON.stringify({x1:x1,y1:y1,x2:x2,y2:y2,profile:modeSelect,}),
+        //url: 'http://roadpeoples.com/api',
+        url: 'http://localhost:3000/api',
+        data: JSON.stringify({x1:x1,y1:y1,x2:x2,y2:y2,profile:$('#mode option:selected').val(),}),
         type: 'POST',
         success: success,
         error: (e) => {console.log('Error: ' + e.message);},
