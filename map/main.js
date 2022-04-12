@@ -146,9 +146,9 @@ const click = function (evt) {
       error: (e) => {console.log('Error: ' + e.message);},
     });
     if ('ontouchstart' in window) {
-      $("#driver").on('touchend',postApi);
+      $("#driver").on('tap touchend',postApi);
     }
-    else $("#driver").on('click',postApi);;
+    else $("#driver").on('tap click',postApi);;
 
   }
   m%=2;
