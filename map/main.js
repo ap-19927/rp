@@ -145,7 +145,7 @@ const click = function (evt) {
       success: success,
       error: (e) => {console.log('Error: ' + e.message);},
     });
-    $("#driver").on('click',postApi);;
+    $("#driver").on('click',postApi);
 
   }
   m%=2;
