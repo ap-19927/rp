@@ -63,6 +63,7 @@ const success = (jd) => {
   overlay.setPosition(undefined);
   $('#stage').append(`<p>From:</p><code>${y1},${x1}</code>`);
   $('#stage').append(`<p>To:</p><code>${y2},${x2}</code>`);
+  $('#stage').append(`<p>On:</p><code>${$('#mode option:selected').val()}</code>`);
   $('#stage').append('<p> -----------</p>');
   let instr = jd.paths[0].instructions
   for(let i =0;i<instr.length;i++) {
@@ -100,12 +101,15 @@ let y1;
 let x2;
 let y2;
 let url;
+const profile = '<label for="mode">Choose a mode:</label> <select name="mode" id="mode"> <option value="car">car</option> <option value="bike">bike</option> <option value="foot">foot</option>'
+const modeSelect = $('#mode option:selected').val();
 const floor = (x) => {
   const t = 100000000;
   return Math.floor(x*t)/t;
 }
 const from = document.getElementById('popup-from');
 const to = document.getElementById('popup-to');
+const mode = document.getElementById("mode");
 const load = document.getElementById('load');
 const closer = document.getElementById('popup-closer');
 closer.onclick = function () {
@@ -121,6 +125,7 @@ const click = function (evt) {
   if(m==1){
     $("#popup-from").empty();
     $("#popup-to").empty();
+    $("#mode").empty();
     $("#load").empty();
     x1=floor(coordinate[0]);
     y1=floor(coordinate[1]);
@@ -132,10 +137,12 @@ const click = function (evt) {
     y2=floor(coordinate[1]);
     to.innerHTML = `<p>To:</p><code>${y2},${x2}</code>`;
     load.innerHTML = '<input type = "button" id = "driver" value = "get directions" />';
-    $("#driver").click(function(event){
+    mode.innerHTML = profile;
+    $("#driver").on('click touchstart',function(event){
       $.ajax({
-        url: 'http://roadpeoples.com/api',
-        data: JSON.stringify({x1:x1,y1:y1,x2:x2,y2:y2}),
+        //url: 'http://roadpeoples.com/api',
+        url: 'http://localhost:3000/api',
+        data: JSON.stringify({x1:x1,y1:y1,x2:x2,y2:y2,profile:modeSelect,}),
         type: 'POST',
         success: success,
         error: (e) => {console.log('Error: ' + e.message);},
@@ -144,7 +151,7 @@ const click = function (evt) {
   }
   m%=2;
 };
-map.on('click', click);
+map.on(['click', 'touchstart'], click);
 
 navigator.geolocation.watchPosition( //https://openlayers.org/workshop/en/mobile/
   function (pos) {
@@ -168,21 +175,26 @@ navigator.geolocation.watchPosition( //https://openlayers.org/workshop/en/mobile
 const locate = document.createElement('div');
 locate.className = 'ol-control ol-unselectable locate';
 locate.innerHTML = '<button title="Locate me">◎</button>';
-locate.addEventListener('click', function () {
+const getFindMe = function () {
   if (!source.isEmpty()) {
     map.getView().fit(source.getExtent(), {
       maxZoom: 18,
       duration: 500,
     });
   }
-});
+}
+locate.addEventListener('click', getFindMe);
+//https://stackoverflow.com/questions/44989705/combining-click-and-touchstart-events-not-working
+if ('ontouchstart' in window) {
+  locate.addEventListener('touchstart', getFindMe);
+}
 map.addControl(
   new Control({
     element: locate,
   })
 );
 if(window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
-  locate.addEventListener('click', function () {
+  const getHeading = function () {
     DeviceOrientationEvent.requestPermission()
       .then(function () {
         const compass = new Kompas();
@@ -192,7 +204,11 @@ if(window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermiss
         });
       })
       .catch(function (error) {
-        alert(`ERROR: ${error.message}`);
+        console.log(`ERROR: ${error.message}`);
       });
-  });
+  }
+  locate.addEventListener('click', getHeading);
+  if ('ontouchstart' in window) {
+    locate.addEventListener('touchstart', getHeading);
+  }
 }

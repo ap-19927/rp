@@ -17,3 +17,5 @@ When a user clicks on two points of the map and clicks the button `get direction
 6. https://stackoverflow.com/questions/66863200/changing-the-input-and-output-directory-in-vite
 
 7. https://stackoverflow.com/questions/23784614/node-js-ajax-sending-and-receiving-json
+
+8. https://stackoverflow.com/questions/44989705/combining-click-and-touchstart-events-not-working
