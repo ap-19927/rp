@@ -147,7 +147,7 @@ const click = function (evt) {
         error: (e) => {console.log('Error: ' + e.message);},
       });
     };
-    $("#driver").on('touchstart',postApi);
+    $("#driver").on('click',postApi);
   }
   m%=2;
 };
