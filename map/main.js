@@ -137,20 +137,20 @@ const click = function (evt) {
     to.innerHTML = `<p>To:</p><code>${y2},${x2}</code>`;
     load.innerHTML = '<input type = "button" id = "driver" value = "get directions" />';
     mode.innerHTML = profile;
-    const postApi = $.ajax({
+    const postApi = () => { $.ajax({
       url: 'http://roadpeoples.com/api',
       //url: 'http://localhost:3000/api',
       data: JSON.stringify({x1:x1,y1:y1,x2:x2,y2:y2,profile:$('#mode option:selected').val(),}),
       type: 'POST',
       success: success,
       error: (e) => {console.log('Error: ' + e.message);},
-    });
+    })};
     $("#driver").on('click',postApi);
 
   }
   m%=2;
 };
-map.on(['click'], click);
+map.on('click', click);
 
 navigator.geolocation.watchPosition( //https://openlayers.org/workshop/en/mobile/
   function (pos) {
