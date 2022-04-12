@@ -138,7 +138,7 @@ const click = function (evt) {
     load.innerHTML = '<input type = "button" id = "driver" value = "get directions" />';
     mode.innerHTML = profile;
     const postApi = () => { $.ajax({
-      url: 'http://roadpeoples.com/api',
+      url: 'https://roadpeoples.com/api',
       //url: 'http://localhost:3000/api',
       data: JSON.stringify({x1:x1,y1:y1,x2:x2,y2:y2,profile:$('#mode option:selected').val(),}),
       type: 'POST',
