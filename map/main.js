@@ -140,8 +140,8 @@ const click = function (evt) {
     mode.innerHTML = profile;
     $("#driver").on('click touchstart',function(event){
       $.ajax({
-        //url: 'http://roadpeoples.com/api',
-        url: 'http://localhost:3000/api',
+        url: 'http://roadpeoples.com/api',
+        //url: 'http://localhost:3000/api',
         data: JSON.stringify({x1:x1,y1:y1,x2:x2,y2:y2,profile:modeSelect,}),
         type: 'POST',
         success: success,
