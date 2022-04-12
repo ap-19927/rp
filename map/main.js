@@ -147,10 +147,7 @@ const click = function (evt) {
         error: (e) => {console.log('Error: ' + e.message);},
       });
     };
-    if ('ontouchstart' in window) {
-      $("#driver").addEventListener('touchstart',postApi);
-    }
-    else $("#driver").addEventListener('click',postApi);
+    $("#driver").on('touchstart click',postApi);
   }
   m%=2;
 };
