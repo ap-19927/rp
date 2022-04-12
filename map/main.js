@@ -148,9 +148,9 @@ const click = function (evt) {
       });
     };
     if ('ontouchstart' in window) {
-      $("#driver").on('touchstart',postApi);
+      $("#driver").addEventListener('touchstart',postApi);
     }
-    else $("#driver").on('click',postApi);
+    else $("#driver").addEventListener('click',postApi);
   }
   m%=2;
 };

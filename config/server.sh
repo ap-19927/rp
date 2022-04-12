@@ -1,4 +1,3 @@
-cd ..
 npm stop
 rm -r dist
 git pull
