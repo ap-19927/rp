@@ -151,7 +151,7 @@ const click = function (evt) {
   }
   m%=2;
 };
-map.on(['click', 'touchstart'], click);
+map.on(['click'], click);
 
 navigator.geolocation.watchPosition( //https://openlayers.org/workshop/en/mobile/
   function (pos) {
