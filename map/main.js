@@ -63,7 +63,7 @@ const success = (jd) => {
   overlay.setPosition(undefined);
   $('#stage').append(`<p>From:</p><code>${y1},${x1}</code>`);
   $('#stage').append(`<p>To:</p><code>${y2},${x2}</code>`);
-  $('#stage').append(`<p>On:</p><code>${$('#mode option:selected').val()}</code>`);
+  $('#stage').append(`<p>On:<code>${$('#mode option:selected').val()}</code></p>`);
   $('#stage').append('<p> -----------</p>');
   let instr = jd.paths[0].instructions
   for(let i =0;i<instr.length;i++) {
@@ -147,11 +147,11 @@ const click = function (evt) {
         error: (e) => {console.log('Error: ' + e.message);},
       });
     };
-    $("#driver").on('touchstart click',postApi);
+    $("#driver").on('touchstart',postApi);
   }
   m%=2;
 };
-map.on(['click'], click);
+map.on(['click', 'touchstart'], click);
 
 navigator.geolocation.watchPosition( //https://openlayers.org/workshop/en/mobile/
   function (pos) {
