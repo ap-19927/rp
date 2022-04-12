@@ -53,8 +53,8 @@ const map = new Map({
     }),
   ],
   view: new View({
-    center: fromLonLat([-92, 32]),
-    zoom: 4,
+    center: fromLonLat([-122.09494205,37.0586273]),
+    zoom: 18,
   }),
 });
 map.addLayer(layer);
@@ -101,7 +101,7 @@ let y1;
 let x2;
 let y2;
 let url;
-const profile = '<label for="mode">Choose a mode:</label> <select name="mode" id="mode"> <option value="car">car</option> <option value="bike">bike</option> <option value="foot">foot</option>'
+const profile = '<label for="mode">Choose a mode:</label> <select name="mode" id="mode"> <option value="foot">foot</option> <option value="bike">bike</option> <option value="car">car</option>'
 const floor = (x) => {
   const t = 100000000;
   return Math.floor(x*t)/t;

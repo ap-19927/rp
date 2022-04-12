@@ -5,8 +5,8 @@
     "start": "pm2 start config/rp.js",
     "stop": "pm2 stop config/rp.js",
     "logs": "pm2 logs",
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "cd config && vite",
+    "build": "cd config && vite build",
     "serve": "vite preview"
   },
   "devDependencies": {

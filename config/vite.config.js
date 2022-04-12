@@ -1,5 +1,5 @@
 module.exports = {
-  root: 'map',
+  root: '../map',
   build: {
     outDir: '../dist',
   }

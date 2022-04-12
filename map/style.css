@@ -7,8 +7,8 @@
   flex: 1 6;
 }
 html, body, #map-container {
-  width: 99%;
-  height: 99%;
+  width: 98%;
+  height: 98%;
   flex-basis: 90%;
 }
 #dir {
