@@ -165,7 +165,7 @@ navigator.geolocation.watchPosition( //https://openlayers.org/workshop/en/mobile
     ]);
   },
   function (error) {
-    alert(`ERROR: ${error.message}`);
+    console.log(`ERROR: ${error.message}`);
   },
   {
     enableHighAccuracy: true,
