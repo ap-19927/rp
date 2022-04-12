@@ -137,7 +137,7 @@ const click = function (evt) {
     to.innerHTML = `<p>To:</p><code>${y2},${x2}</code>`;
     load.innerHTML = '<input type = "button" id = "driver" value = "get directions" />';
     mode.innerHTML = profile;
-    $("#driver").on('click touchstart',function(event){
+    const postApi = function(event){
       $.ajax({
         url: 'http://roadpeoples.com/api',
         //url: 'http://localhost:3000/api',
@@ -146,7 +146,11 @@ const click = function (evt) {
         success: success,
         error: (e) => {console.log('Error: ' + e.message);},
       });
-    });
+    };
+    if ('ontouchstart' in window) {
+      $("#driver").on('touchstart',postApi);
+    }
+    else $("#driver").on('click',postApi);
   }
   m%=2;
 };
@@ -182,11 +186,11 @@ const getFindMe = function () {
     });
   }
 }
-locate.addEventListener('click', getFindMe);
 //https://stackoverflow.com/questions/44989705/combining-click-and-touchstart-events-not-working
 if ('ontouchstart' in window) {
   locate.addEventListener('touchstart', getFindMe);
 }
+else locate.addEventListener('click', getFindMe);
 map.addControl(
   new Control({
     element: locate,
@@ -206,8 +210,8 @@ if(window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermiss
         console.log(`ERROR: ${error.message}`);
       });
   }
-  locate.addEventListener('click', getHeading);
   if ('ontouchstart' in window) {
     locate.addEventListener('touchstart', getHeading);
   }
+  else locate.addEventListener('click', getHeading);
 }
