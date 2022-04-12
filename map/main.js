@@ -145,15 +145,12 @@ const click = function (evt) {
       success: success,
       error: (e) => {console.log('Error: ' + e.message);},
     });
-    if ('ontouchstart' in window) {
-      $("#driver").on('tap touchend',postApi);
-    }
-    else $("#driver").on('tap click',postApi);;
+    $("#driver").on('click',postApi);;
 
   }
   m%=2;
 };
-map.on(['click', 'touchstart'], click);
+map.on('click', click);
 
 navigator.geolocation.watchPosition( //https://openlayers.org/workshop/en/mobile/
   function (pos) {
