@@ -1,0 +1,10 @@
+#mapOL {
+  background-color: black;
+  color: white;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+#newID {
+  color: orange;
+}

@@ -1,23 +1,23 @@
 {
-  "name": "rp",
-  "version": "1.0.0",
+  "name": "roadpeoples",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "start": "pm2 start config/rp.js",
-    "stop": "pm2 stop config/rp.js",
-    "logs": "pm2 logs",
-    "dev": "cd config && vite",
-    "build": "cd config && vite build",
-    "serve": "vite preview"
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "vite": "^2.6.7"
+    "@nuxt/devtools": "latest",
+    "nuxt": "^3.8.2",
+    "vue": "^3.3.10",
+    "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "axios": "^0.26.1",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.3",
     "kompas": "^0.0.1",
-    "ol": "latest",
-    "pm2": "^5.2.0"
+    "ol": "^8.2.0",
+    "vue3-openlayers": "^3.2.0"
   }
 }
