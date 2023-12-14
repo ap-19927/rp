@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "kompas": "^0.0.1",
-    "ol": "^8.2.0",
     "vue3-openlayers": "^3.2.0"
   }
 }
