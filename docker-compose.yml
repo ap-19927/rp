@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+
+  source:
+    container_name: source
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: unless-stopped
+    ports:
+      - "${PROXY_IP}:${PORT}:${PORT}"
+    env_file:
+      - .env
