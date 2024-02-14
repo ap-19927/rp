@@ -5,5 +5,4 @@ export default defineNuxtConfig({
    routeRules: {
      '/': { ssr: false },
    },
-   css: ['~/assests/css/index.css'],
 })

@@ -16,7 +16,6 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "kompas": "^0.0.1",
-    "vue3-openlayers": "^3.2.0"
+    "ol": "^8.2.0"
   }
 }
