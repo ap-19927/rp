@@ -19,12 +19,11 @@ import Point from 'ol/geom/Point';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { Style, Circle, Fill, Stroke } from 'ol/style';
-import inventory from "public/inventory.json";
 
 const mapElement = ref("map-container");
 const formData = ref(null);
 
-onMounted(() => {
+onMounted(async () => {
   const drawPlacements = (coordinates, longitude, latitude) => {
     const marker = new Feature({
       geometry: new Point(coordinates),
@@ -98,7 +97,8 @@ onMounted(() => {
   });
   map.addOverlay(overlay);
 
-  inventory.inventory.forEach(dataPoint => drawPlacements(dataPoint.coordinates, dataPoint.longitude, dataPoint.latitude));
+  const inventory = await useFetch("/api/fetchInventory");
+  inventory.data._rawValue.inventory.forEach(dataPoint => drawPlacements(dataPoint.coordinates, dataPoint.longitude, dataPoint.latitude));
 
   // Event listener for map click
   map.on('click', handleMapClick);
