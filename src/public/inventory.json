@@ -2,21 +2,40 @@
   "inventory": [
     {
       "coordinates": [
-        -13578513.93959256,
-        4433120.790067031
+        -13578515.829146823,
+        4433121.38416059
       ],
-      "longitude": -121.97786607565972,
-      "latitude": 36.95704274453543,
-      "currentTime": "Thu Feb 22 2024 23:52:31 GMT-0800 (Pacific Standard Time)"
+      "longitude": -121.97788304981447,
+      "latitude": 36.95704700912668,
+      "facilities": [
+        "water fountain",
+        "restroom"
+      ],
+      "currentTime": "Wed Feb 28 2024 19:37:48 GMT-0800 (Pacific Standard Time)"
     },
     {
       "coordinates": [
-        -13583942.470462073,
-        4432358.726475298
+        -13580230.753232362,
+        4433621.278847478
       ],
-      "longitude": -122.0266313981637,
-      "latitude": 36.95157221470771,
-      "currentTime": "Fri Feb 23 2024 11:04:11 GMT-0800 (Pacific Standard Time)"
+      "longitude": -121.99328847498592,
+      "latitude": 36.960635326462224,
+      "facilities": [
+        "restroom"
+      ],
+      "currentTime": "Wed Feb 28 2024 19:38:09 GMT-0800 (Pacific Standard Time)"
+    },
+    {
+      "coordinates": [
+        -13583943.795427926,
+        4432357.789008877
+      ],
+      "longitude": -122.02664330053447,
+      "latitude": 36.951565484793704,
+      "facilities": [
+        "water fountain"
+      ],
+      "currentTime": "Wed Feb 28 2024 19:38:26 GMT-0800 (Pacific Standard Time)"
     }
   ]
 }

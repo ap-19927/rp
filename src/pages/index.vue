@@ -1,6 +1,16 @@
 <template>
   <div id="map-container">
   </div>
+  <div>
+    <div>facilities: {{ checkedFac }}</div>
+
+    <input type="checkbox" id="waterFountain" value="water fountain" v-model="checkedFac">
+    <label for="waterFountain" style="color: rgb(255,0,0)">Water Fountain</label>
+
+    <input type="checkbox" id="restroom" value="restroom" v-model="checkedFac">
+    <label for="restroom" style="color: rgb(0,255,0)">Restroom</label>
+    <p style="color: rgb(128,0,128)"> Fountain + Restroom </p>
+  </div>
 </template>
 
 <script setup>
@@ -22,14 +32,15 @@ import { Style, Circle, Fill, Stroke } from 'ol/style';
 
 const mapElement = ref("map-container");
 const formData = ref(null);
+const checkedFac = ref([])
 
 onMounted(async () => {
-  const drawPlacements = (coordinates, longitude, latitude) => {
+  const drawPlacements = (coordinates, longitude, latitude, facilities) => {
     const marker = new Feature({
       geometry: new Point(coordinates),
     });
 
-    const markerStyle = new Style({
+    const markerStyleFountain = new Style({
       image: new Circle({
         radius: 6,
         fill: new Fill({
@@ -41,7 +52,36 @@ onMounted(async () => {
         }),
       }),
     });
-    marker.setStyle(markerStyle);
+    const markerStyleRoom = new Style({
+      image: new Circle({
+        radius: 6,
+        fill: new Fill({
+          color: 'rgba(0, 255, 0, 0.5)',
+        }),
+        stroke: new Stroke({
+          color: 'rgba(0, 255, 0, 1)',
+          width: 2,
+        }),
+      }),
+    });
+    const markerStyleFountainRoom = new Style({
+      image: new Circle({
+        radius: 6,
+        fill: new Fill({
+          color: 'rgba(128, 0, 128, 0.5)',
+        }),
+        stroke: new Stroke({
+          color: 'rgba(128, 0, 128, 1)',
+          width: 2,
+        }),
+      }),
+    });
+    if(facilities.length === 1 && facilities[0] === "water fountain")
+      marker.setStyle(markerStyleFountain);
+    else if(facilities.length === 1 && facilities[0] === "restroom")
+      marker.setStyle(markerStyleRoom);
+    else
+      marker.setStyle(markerStyleFountainRoom);
 
     const markerLayer = new VectorLayer({
       source: new VectorSource({
@@ -58,22 +98,27 @@ onMounted(async () => {
 
   // Function to handle map click event
   const handleMapClick = async (event) => {
+
+    if(checkedFac.value.length === 0) return;
+
     const coordinates = event.coordinate;
     const [longitude, latitude] = toLonLat(coordinates);
     const currentTime = new Date(Date.now()).toString();
+    const facilities = checkedFac.value;
     formData.value = {
       coordinates,
       longitude,
       latitude,
+      facilities,
       currentTime,
-    }
+    };
 
     await useFetch("/api/upload", {
       method: "POST",
       body: formData,
     });
 
-    drawPlacements(coordinates, longitude, latitude);
+    drawPlacements(coordinates, longitude, latitude, facilities);
   }
 
   //Initialize the map
@@ -98,7 +143,7 @@ onMounted(async () => {
   map.addOverlay(overlay);
 
   const inventory = await useFetch("/api/fetchInventory");
-  inventory.data._rawValue.inventory.forEach(dataPoint => drawPlacements(dataPoint.coordinates, dataPoint.longitude, dataPoint.latitude));
+  inventory.data._rawValue.inventory.forEach(dataPoint => drawPlacements(dataPoint.coordinates, dataPoint.longitude, dataPoint.latitude, dataPoint.facilities));
 
   // Event listener for map click
   map.on('click', handleMapClick);
