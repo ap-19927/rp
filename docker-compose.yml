@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+
+  rp_nuxt_container:
+    container_name: rp_nuxt_container
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: unless-stopped
+    ports:
+      - "${PROXY_IP}:${PORT}:${PORT}"
+    env_file:
+      - .env
