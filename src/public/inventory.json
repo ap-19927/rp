@@ -36,6 +36,18 @@
         "water fountain"
       ],
       "currentTime": "Wed Feb 28 2024 19:38:26 GMT-0800 (Pacific Standard Time)"
+    },
+    {
+      "coordinates": [
+        -13587339.601692198,
+        4432429.994849576
+      ],
+      "longitude": -122.0571483472255,
+      "latitude": 36.95208383665647,
+      "facilities": [
+        "water fountain"
+      ],
+      "currentTime": "Thu Feb 29 2024 20:33:17 GMT-0800 (Pacific Standard Time)"
     }
   ]
 }
