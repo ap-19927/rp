@@ -15,6 +15,12 @@ import Polyline from 'ol/format/Polyline';
 import { Vector as VectorLayer } from 'ol/layer';
 import { Vector as VectorSource } from 'ol/source';
 import { Style, Circle, Fill, Stroke } from 'ol/style';
+import { Icon } from 'ol/style';
+import {circular} from 'ol/geom/Polygon';
+import Control from 'ol/control/Control';
+import {fromLonLat} from 'ol/proj';
+import Kompas from 'kompas';
+import locationHeading from 'public/location-heading.svg'
 
 import { useAuth0 } from '@auth0/auth0-vue'
 const auth0 = useAuth0();
@@ -39,12 +45,9 @@ onMounted(async () => {
     if(counter.value === 2) {
       x2.value = latitude;
       y2.value = longitude;
-      const config = useRuntimeConfig();
-      const key = config.public.ghKey;
-      const ghURL = `https://graphhopper.com/api/1/route?point=${x1.value},${y1.value}&point=${x2.value},${y2.value}&key=${key}`
+      let polyline = await useFetch(`/api/directions/?x1=${x1.value}&y1=${y1.value}&x2=${x2.value}&y2=${y2.value}`);
 
       //https://openlayers.org/en/main/examples/feature-move-animation.html
-      let polyline = await useFetch(ghURL);
       if(!polyline.data._rawValue) {
         counter.value %= 2;
         return;
@@ -199,6 +202,84 @@ onMounted(async () => {
 
   // Event listener for map click
   map.on('click', handleMapClick);
+
+
+  const style = new Style({
+    fill: new Fill({
+      color: 'rgba(0, 0, 255, 0.2)',
+    }),
+    image: new Icon({
+      src: locationHeading,
+      imgSize: [27, 55],
+      rotateWithView: true,
+    }),
+  });
+  const source = new VectorSource();
+  const layer = new VectorLayer({
+    source: source,
+  });
+  layer.setStyle(style);
+  map.addLayer(layer);
+  navigator.geolocation.watchPosition( //https://openlayers.org/workshop/en/mobile/
+    function (pos) {
+      const coords = [pos.coords.longitude, pos.coords.latitude];
+      const accuracy = circular(coords, pos.coords.accuracy);
+      source.clear(true);
+      source.addFeatures([
+        new Feature(
+          accuracy.transform('EPSG:4326', map.getView().getProjection())
+        ),
+        new Feature(new Point(fromLonLat(coords))),
+      ]);
+    },
+    function (error) {
+      console.log(`ERROR: ${error.message}`);
+    },
+    {
+      enableHighAccuracy: true,
+    }
+  );
+  const locate = document.createElement('div');
+  locate.className = 'ol-control ol-unselectable locate';
+  locate.innerHTML = '<button title="Locate me">◎</button>';
+  const getFindMe = function () {
+    if (!source.isEmpty()) {
+      map.getView().fit(source.getExtent(), {
+        maxZoom: 18,
+        duration: 500,
+      });
+    }
+  }
+  //https://stackoverflow.com/questions/44989705/combining-click-and-touchstart-events-not-working
+  if ('ontouchstart' in window) {
+    locate.addEventListener('touchstart', getFindMe);
+  }
+  else locate.addEventListener('click', getFindMe);
+  map.addControl(
+    new Control({
+      element: locate,
+    })
+  );
+  if(window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    const getHeading = function () {
+      DeviceOrientationEvent.requestPermission()
+        .then(function () {
+          const compass = new Kompas();
+          compass.watch();
+          compass.on('heading', function (heading) {
+            style.getImage().setRotation((Math.PI / 180) * heading);
+          });
+        })
+        .catch(function (error) {
+          console.log(`ERROR: ${error.message}`);
+        });
+    }
+    if ('ontouchstart' in window) {
+      locate.addEventListener('touchstart', getHeading);
+    }
+    else locate.addEventListener('click', getHeading);
+  }
+
 });
 
 </script>

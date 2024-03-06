@@ -2060,6 +2060,11 @@ commondir@^1.0.1:
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
   integrity sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==
 
+component-emitter@^1.2.1||~2:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-2.0.0.tgz#3a137dfe66fcf2efe3eab7cb7d5f51741b3620c6"
+  integrity sha512-4m5s3Me2xxlVKG9PkZpQqHQR7bgpnN7joDMJ4yvVkVXngjoITG76IaZmzmywSeRTeTpc6N6r3H3+KyUurV8OYw==
+
 compress-commons@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/compress-commons/-/compress-commons-5.0.1.tgz#e46723ebbab41b50309b27a0e0f6f3baed2d6590"
@@ -3289,6 +3294,13 @@ kolorist@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/kolorist/-/kolorist-1.8.0.tgz#edddbbbc7894bc13302cdf740af6374d4a04743c"
   integrity sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==
+
+kompas@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/kompas/-/kompas-0.0.2.tgz#72f4ba215d8af4dd2bc51d29babdb653c7cb626d"
+  integrity sha512-injQ7S/tY87EBUejbvKE7pvB3CnOUV1DWYJQwkzYun12lDOgm13vuXLHR5fRgZZwO1cA17bRCGhCkCYwNcEVRw==
+  dependencies:
+    component-emitter "^1.2.1||~2"
 
 launch-editor@^2.6.1:
   version "2.6.1"

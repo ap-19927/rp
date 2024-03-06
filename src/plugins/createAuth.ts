@@ -1,11 +1,13 @@
 //https://stackoverflow.com/questions/74477187/how-to-implement-auth0-with-nuxt3
 import { createAuth0 } from '@auth0/auth0-vue';
+
 const plugin = (nuxtApp) => {
+  const config = useRuntimeConfig();
   const auth0 = createAuth0({
-    domain: "dev-ttmk3bqoecccd4fr.us.auth0.com",
-    clientId: "kLwg0VWTjmQV4C4XSqUYosetzdwkC3lb",
+    domain: config.public.auth0Domain,
+    clientId: config.public.auth0Clientid,
     authorizationParams: {
-      redirect_uri: "http://localhost:3000"
+      redirect_uri: config.public.auth0Redirecturi,
     }
   })
 
