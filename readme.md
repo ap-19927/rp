@@ -10,11 +10,7 @@ TODO: add review map before global publish
 
 ## GOAL: directions api
 
-TODO: secure GH API key (route to `server/api`?)
-
 TODO: directions as `div` element on side of map (can we use Tailwind?)
-
-TODO: give location marker
 
 TODO: request driver
 
