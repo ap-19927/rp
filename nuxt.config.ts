@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     ghSecretKey: "",
+    geoapifyKey: "",
 
     public: {
       auth0Domain: "",

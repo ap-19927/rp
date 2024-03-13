@@ -20,7 +20,7 @@ import {circular} from 'ol/geom/Polygon';
 import Control from 'ol/control/Control';
 import {fromLonLat} from 'ol/proj';
 import Kompas from 'kompas';
-import locationHeading from 'public/location-heading.svg'
+import locationHeading from '/location-heading.svg'
 
 import { useAuth0 } from '@auth0/auth0-vue'
 const auth0 = useAuth0();
