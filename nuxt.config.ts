@@ -5,11 +5,18 @@ export default defineNuxtConfig({
   routeRules: {
     "/": { ssr: false, },
   },
-  modules: ["@sidebase/nuxt-auth"],
+  modules: ["@sidebase/nuxt-auth", "nuxt-security"],
   auth: {
     globalAppMiddleware: true,
     provider: {
       type: "authjs",
+    },
+  },
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        "img-src": ["'self'", "data:", "https://tile.openstreetmap.org"],
+      },
     },
   },
   runtimeConfig: {
