@@ -1,6 +1,11 @@
+import protectRoutes from "~/server/protectRoutes";
+
 const config = useRuntimeConfig();
 const key = config.ghSecretKey;
+
 export default defineEventHandler( async (event) => {
+  await protectRoutes(event);
+
   const x1 = getQuery(event).x1;
   const y1 = getQuery(event).y1;
   const x2 = getQuery(event).x2;

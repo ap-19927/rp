@@ -22,9 +22,6 @@ import {fromLonLat} from "ol/proj";
 import Kompas from "kompas";
 import locationHeading from "/location-heading.svg"
 
-import { useAuth0 } from "@auth0/auth0-vue"
-const auth0 = useAuth0();
-
 const mapElement = ref("map-container");
 const formData = ref(null);
 const checkedFac = ref([])
@@ -145,8 +142,6 @@ onMounted(async () => {
 
   // Function to handle map click event
   const handleMapClick = async (event) => {
-
-    if(!auth0.isAuthenticated.value) return;
 
     const coordinates = event.coordinate;
     const [longitude, latitude] = toLonLat(coordinates);

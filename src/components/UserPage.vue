@@ -1,38 +1,31 @@
 <template>
 <div>
-  <div v-if="isLoading">Loading ...</div>
-  <div v-else>
-    <pre v-if="isAuthenticated">
-      <div>
-        <h2>Request Driver</h2>
-        <form>
-          <input v-model="source" placeholder="source address">
-          <label for="checkbox"> Or use location:</label>
-          <input type="checkbox" id="checkbox" v-model="useLocation">
-          <input v-model="destination" placeholder="destination address">
-        </form>
-        <button @click="request">
-          <slot>Request</slot>
-        </button>
-        <code>{{ results }}</code>
-      </div>
-      <div>
-        <h2>User Info</h2>
-        <code>{{ user }}</code>
-      </div>
-    </pre>
+  <div>
+    <h2>Request Driver</h2>
+    <form>
+      <input v-model="source" placeholder="source address">
+      <label for="checkbox"> Or use location:</label>
+      <input type="checkbox" id="checkbox" v-model="useLocation">
+      <input v-model="destination" placeholder="destination address">
+    </form>
+    <button @click="request">
+      <slot>Request</slot>
+    </button>
+    <code>{{ results }}</code>
+  </div>
+  <div>
+    <h2>User Info</h2>
+    <p>{{ status }}</p>
+    <pre>{{ data }}</pre>
   </div>
 </div>
 </template>
 
 <script setup>
-import { useAuth0 } from '@auth0/auth0-vue';
 
-const auth0 = useAuth0();
-const isAuthenticated = ref(auth0.isAuthenticated);
-const login = ref(() => auth0.loginWithRedirect());
-const user = ref(auth0.user);
-const isLoading = ref(auth0.isLoading);
+const { status, data } = useAuth();
+
+data.value = JSON.stringify(data,null,"\t");
 
 const source = ref(null);
 const useLocation = ref(null);
