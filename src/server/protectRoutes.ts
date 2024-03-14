@@ -1,10 +1,10 @@
 //https://masteringnuxt.com/blog/protecting-server-routes
 
-import { getToken } from '#auth'
+import { getServerSession } from "#auth"
 
 export default async (event) => {
-  const token = await getToken({ event })
-  if (!token) {
-    throw createError({ statusMessage: 'Unauthenticated', statusCode: 403 })
+  const session = await getServerSession(event);
+  if (!session) {
+    throw createError({ statusMessage: "Unauthenticated", statusCode: 403 })
   }
 }
