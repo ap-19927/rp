@@ -31,6 +31,12 @@ const y1 = ref(0);
 const x2 = ref(0);
 const y2 = ref(0);
 
+if(localStorage.getItem("FacilityList") === null)
+  localStorage.setItem("FacilityList", JSON.stringify([]));
+const currentStore = JSON.parse(localStorage.getItem("FacilityList"));
+const storeRef = ref(null);
+storeRef.value = currentStore;
+
 onMounted(async () => {
   const drawPolyLine = async (longitude, latitude) => {
 
@@ -161,10 +167,9 @@ onMounted(async () => {
       currentTime,
     };
 
-    await useFetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
+    currentStore.push(formData.value);
+    storeRef.value = currentStore;
+    localStorage.setItem("FacilityList", JSON.stringify(currentStore));
 
     drawPlacements(coordinates, longitude, latitude, facilities);
   }
@@ -192,12 +197,20 @@ onMounted(async () => {
   map.addOverlay(overlay);
 
   // Load existing data
-  const inventory = await useFetch("/api/fetchInventory");
-  inventory.data._rawValue.inventory.forEach(dataPoint => drawPlacements(dataPoint.coordinates, dataPoint.longitude, dataPoint.latitude, dataPoint.facilities));
+  JSON.parse(localStorage.getItem("FacilityList")).forEach(dataPoint =>
+    drawPlacements(
+      dataPoint.coordinates, dataPoint.longitude, dataPoint.latitude,
+      dataPoint.facilities
+    )
+  );
 
   // Event listener for map click
   map.on("click", handleMapClick);
 
+
+  /*****
+    Location Info
+  *****/
 
   const style = new Style({
     fill: new Fill({
@@ -287,7 +300,10 @@ onMounted(async () => {
   <div id="map-container">
   </div>
   <div>
-    <div>facilities: {{ checkedFac }}</div>
+    <li v-for="item in storeRef">
+      ({{ item.latitude }},{{ item.longitude }}), {{ item.facilities }}
+    </li>
+    <div>StagedFacilities: {{ checkedFac }}</div>
 
     <input type="checkbox" id="waterFountain" value="water fountain" v-model="checkedFac">
     <label for="waterFountain" style="color: rgb(255,0,0)">Water Fountain</label>
