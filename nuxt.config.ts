@@ -2,7 +2,8 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   srcDir: "src/",
-   routeRules: {
+  modules: ['@nuxtjs/supabase'],
+  routeRules: {
      '/': { ssr: false },
    },
 })
