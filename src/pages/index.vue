@@ -30,6 +30,25 @@ const removeItem = (item) => {
   localStorage.setItem("FacilityList", JSON.stringify(currentStore));
 }
 
+//https://stackoverflow.com/a/65939108
+const downloadList = (dataObjToWrite) => {
+  const blob = new Blob([JSON.stringify(dataObjToWrite)], { type: "text/json" });
+  const link = document.createElement("a");
+
+  link.download = "facilities.json";
+  link.href = window.URL.createObjectURL(blob);
+  link.dataset.downloadurl = ["text/json", link.download, link.href].join(":");
+
+  const evt = new MouseEvent("click", {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+  });
+
+  link.dispatchEvent(evt);
+  link.remove();
+}
+
 onMounted(async () => {
 
   const drawPlacements = (coordinates, longitude, latitude, facilities) => {
@@ -161,6 +180,7 @@ onMounted(async () => {
     ({{ item.latitude }},{{ item.longitude }}), {{ item.facilities }}
     <button @click="removeItem(item)"> X </button>
   </li>
+  <button @click="downloadList(currentStore)"> Download list </button>
   <div>StagedFacilities: {{ checkedFac }}</div>
 
   <input type="checkbox" id="waterFountain" value="water fountain" v-model="checkedFac">
