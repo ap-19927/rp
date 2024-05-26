@@ -1,5 +1,7 @@
-<script setup>
-const supabase = useSupabaseClient()
+<script setup lang=ts>
+//https://supabase.com/docs/guides/getting-started/tutorials/with-nuxt-3
+const user = useSupabaseUser();
+const supabase = useSupabaseClient();
 
 const loading = ref(true)
 const username = ref('')
@@ -7,7 +9,6 @@ const website = ref('')
 const avatar_path = ref('')
 
 loading.value = true
-const user = useSupabaseUser()
 
 const { data } = await supabase
   .from('profiles')
@@ -22,6 +23,8 @@ if (data) {
 }
 
 loading.value = false
+
+await useFetch("api/getUser/");
 
 async function updateProfile() {
   try {
@@ -62,32 +65,32 @@ async function signOut() {
 </script>
 
 <template>
-  <form class="form-widget" @submit.prevent="updateProfile">
-    <Avatar v-model:path="avatar_path" @upload="updateProfile" />
-    <div>
-      <label for="email">Email</label>
-      <input id="email" type="text" :value="user.email" disabled />
-    </div>
-    <div>
-      <label for="username">Name</label>
-      <input id="username" type="text" v-model="username" />
-    </div>
-    <div>
-      <label for="website">Website</label>
-      <input id="website" type="url" v-model="website" />
-    </div>
+<form class="form-widget" @submit.prevent="updateProfile">
+  <Avatar v-model:path="avatar_path" @upload="updateProfile" />
+  <div>
+    <label for="email">Email</label>
+    <input id="email" type="text" :value="user.email" disabled />
+  </div>
+  <div>
+    <label for="username">Name</label>
+    <input id="username" type="text" v-model="username" />
+  </div>
+  <div>
+    <label for="website">Website</label>
+    <input id="website" type="url" v-model="website" />
+  </div>
 
-    <div>
-      <input
-        type="submit"
-        class="button primary block"
-        :value="loading ? 'Loading ...' : 'Update'"
-        :disabled="loading"
-      />
-    </div>
+  <div>
+    <input
+      type="submit"
+      class="button primary block"
+      :value="loading ? 'Loading ...' : 'Update'"
+      :disabled="loading"
+    />
+  </div>
 
-    <div>
-      <button class="button block" @click="signOut" :disabled="loading">Sign Out</button>
-    </div>
-  </form>
+  <div>
+    <button class="button block" @click="signOut" :disabled="loading">Sign Out</button>
+  </div>
+</form>
 </template>
