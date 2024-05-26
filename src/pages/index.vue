@@ -49,6 +49,32 @@ const downloadList = (dataObjToWrite) => {
   link.remove();
 }
 
+//https://stackoverflow.com/a/66387148
+const uploadList = async (event) => {
+  async function parseJsonFile(file) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader()
+      fileReader.onload = event => resolve(JSON.parse(event.target.result))
+      fileReader.onerror = error => reject(error)
+      fileReader.readAsText(file)
+    })
+  }
+
+  const listFromFile = await parseJsonFile(event.target.files[0]);
+  const tempStore = currentStore;
+
+  //https://stackoverflow.com/a/50371323
+  currentStore.push(
+    ...listFromFile.filter(
+      o => !tempStore.some(
+        b => JSON.stringify(b) === JSON.stringify(o)
+      )
+    )
+  );
+  storeRef.value = currentStore;
+  localStorage.setItem("FacilityList", JSON.stringify(currentStore));
+}
+
 onMounted(async () => {
 
   const drawPlacements = (coordinates, longitude, latitude, facilities) => {
@@ -181,6 +207,9 @@ onMounted(async () => {
     <button @click="removeItem(item)"> X </button>
   </li>
   <button @click="downloadList(currentStore)"> Download list </button>
+  <div>
+    Upload <input type="file" @change="uploadList($event)"/>
+  </div>
   <div>StagedFacilities: {{ checkedFac }}</div>
 
   <input type="checkbox" id="waterFountain" value="water fountain" v-model="checkedFac">
